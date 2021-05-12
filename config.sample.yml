@@ -1,0 +1,6 @@
+api_key: key # riot api key
+starting_puuid: puuid # starting puuid to begin match history chain
+sample_size: 50 # desired sample size, NOTE: can fluctuate, rarely exact
+region: na # region to query data from
+log_progress: true # logs queue length and number of requests
+output_directory: # optional - defaults to ./data
