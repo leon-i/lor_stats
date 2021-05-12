@@ -8,6 +8,7 @@ class RequestHandler {
   totalRequests: number
   secondLimiter: RateLimiter
   minuteLimiter: RateLimiter
+  methodLimiter: RateLimiter
 
   constructor(apiKey: string) {
     this.apiKey = apiKey
@@ -17,6 +18,10 @@ class RequestHandler {
       interval: 'second',
     })
     this.minuteLimiter = new RateLimiter({
+      tokensPerInterval: 45,
+      interval: 'minute'
+    })
+    this.methodLimiter = new RateLimiter({
       tokensPerInterval: 99,
       interval: 'hour',
     })
@@ -51,6 +56,7 @@ class RequestHandler {
   ): Promise<APIResponse<T>> {
     await this.secondLimiter.removeTokens(1)
     await this.minuteLimiter.removeTokens(1)
+    await this.methodLimiter.removeTokens(1)
 
     const response = await this._makeRequest(`${url}/${id}${urlCap}`)
 
