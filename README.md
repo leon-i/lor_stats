@@ -1,5 +1,7 @@
 # lor_stats
-Utilizes Riot's match history api for Legends of Runeterra to collect deck winrate data of a set sample size by chaining opponents' match history.
+Utilizes Riot's match history api for Legends of Runeterra to collect deck winrate data of a set sample size by chaining opponents' match history.  
+  
+Due to Riot development api key method rate limit constraints this tool will only be able to collect ~99 matches/hr (can be increased in `request_handler.ts`).
 
 ## Installation
 ```
