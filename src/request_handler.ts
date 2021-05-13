@@ -19,7 +19,7 @@ class RequestHandler {
     })
     this.minuteLimiter = new RateLimiter({
       tokensPerInterval: 45,
-      interval: 'minute'
+      interval: 'minute',
     })
     this.methodLimiter = new RateLimiter({
       tokensPerInterval: 99,
