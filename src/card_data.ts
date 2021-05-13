@@ -12,13 +12,15 @@ import { Card } from './types'
  }
 */
 export const getCardData = async (): Promise<void> => {
-  const data = await fetch('https://lorassets.switchblade.xyz/en_us/data/cards.json')
-  const cardData: Card[] = await data.json()
+  let allCardData : Card[] = []
+  const setNumbers : number[] = [1, 2, 3, 4]
 
-  const data2 = await fetch('https://dd.b.pvp.net/latest/set4/en_us/data/set4-en_us.json')
-  const cardData2: Card[] = await data2.json()
+  for (const setNumber of setNumbers) {
+    const data = await fetch(`https://dd.b.pvp.net/latest/set${setNumber}/en_us/data/set${setNumber}-en_us.json`)
+    const cardData : Card[] = await data.json()
 
-  const allCardData: Card[] = [...cardData, ...cardData2]
+    allCardData = [...allCardData, ...cardData]
+  }
 
   const allChamps = allCardData.filter((card) => card.rarityRef === 'Champion')
   allChamps.forEach((champ) => (CHAMP_DATA[champ.cardCode] = champ.name))
