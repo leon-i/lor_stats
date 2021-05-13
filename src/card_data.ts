@@ -15,6 +15,7 @@ export const getCardData = async (): Promise<void> => {
   let allCardData : Card[] = []
   const setNumbers : number[] = [1, 2, 3, 4]
 
+  // collect card data from each set
   for (const setNumber of setNumbers) {
     const data = await fetch(`https://dd.b.pvp.net/latest/set${setNumber}/en_us/data/set${setNumber}-en_us.json`)
     const cardData : Card[] = await data.json()
