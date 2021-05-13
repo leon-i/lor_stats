@@ -9,8 +9,7 @@
     "start": "ttsc && node dist/index.js",
     "type-check": "ttsc --pretty --noEmit",
     "format": "prettier --write .",
-    "lint": "eslint . --ext ts --fix",
-    "postinstall": "husky install"
+    "lint": "eslint . --ext ts --fix"
   },
   "husky": {
     "hooks": {
@@ -39,7 +38,7 @@
     "eslint": "^7.26.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
-    "husky": "^6.0.0",
+    "husky": "^4.3.8",
     "lint-staged": "^11.0.0",
     "prettier": "^2.3.0",
     "ttypescript": "^1.5.12",
