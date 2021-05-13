@@ -9,7 +9,8 @@
     "start": "ttsc && node dist/index.js",
     "type-check": "ttsc --pretty --noEmit",
     "format": "prettier --write .",
-    "lint": "eslint . --ext ts --fix"
+    "lint": "eslint . --ext ts --fix",
+    "postinstall": "husky install"
   },
   "husky": {
     "hooks": {
