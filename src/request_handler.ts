@@ -49,7 +49,7 @@ class RequestHandler {
     if (res.status) {
       console.warn(data)
       console.warn(res)
-      throw Error(`Riot API error - ${new Date().toDateString()}`)
+      throw Error(`Riot API error - ${new Date().toLocaleString()}`)
     }
 
     if (Array.isArray(res)) return { matches: res }
