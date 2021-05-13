@@ -41,7 +41,7 @@ class RequestHandler {
     if (res.status) {
       console.warn(data)
       console.warn(res)
-      throw Error('Riot API error')
+      throw Error(`Riot API error - ${new Date().toDateString()}`)
     }
 
     if (Array.isArray(res)) return { matches: res }
