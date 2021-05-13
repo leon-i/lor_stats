@@ -12,12 +12,6 @@
     "lint": "eslint . --ext ts --fix",
     "postinstall": "husky install"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "pre-push": "yarn type-check"
-    }
-  },
   "lint-staged": {
     "*.ts": [
       "yarn lint",

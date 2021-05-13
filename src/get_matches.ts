@@ -8,6 +8,15 @@ import {
   NA_MATCHES_API_URL,
 } from './urls'
 
+/*
+  Generates queue of match ids by bouncing from opponents' match history to opponents' match history
+  Match ids are then used to request match data which is in turn processed and logged TOTAL_DECK_DATA
+  in global object
+
+  Seen player ids and match ids are logged in SEEN_PLAYERS and SEEN_MATCHES to avoid duplicates
+
+  Only ranked data is logged and queue length is roughly determined by sample size set in config.yml
+ */
 export const getMatches = async (): Promise<void> => {
   const { matchApiUrl, matchDataApiUrl } = getApiUrls()
 
@@ -52,6 +61,9 @@ export const getMatches = async (): Promise<void> => {
   }
 }
 
+/*
+  Returns api urls based on region set in config.yml
+ */
 const getApiUrls = (): { matchApiUrl: string; matchDataApiUrl: string } => {
   switch (CONFIG.region) {
     case 'na':

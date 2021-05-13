@@ -10,15 +10,13 @@ const main = async () => {
 main()
   .then(() => {
     console.log('done - no errors :)')
-    const { formatted, totalSample } = formatDeckData()
-
-    logData(formatted, totalSample)
-    writeDataToJson(formatted, totalSample)
   })
   .catch((e) => {
     console.error(`ERROR - ${e.message}`)
-    const { formatted, totalSample } = formatDeckData()
+  })
+  .finally(() => {
+    const { formattedData, totalSample } = formatDeckData()
 
-    logData(formatted, totalSample)
-    writeDataToJson(formatted, totalSample)
+    logData(formattedData, totalSample)
+    writeDataToJson(formattedData, totalSample)
   })

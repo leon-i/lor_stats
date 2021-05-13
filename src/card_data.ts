@@ -3,14 +3,9 @@ import { CHAMP_DATA } from './constants'
 import { Card } from './types'
 
 /*
-
- CHAMP_DATA
- card code mapped to card name
-
- {
-    "234323": "champ_name"
- }
-*/
+  Gathers set data from data dragon then formats and assigns champion data
+  to CHAMP_DATA global object
+ */
 export const getCardData = async (): Promise<void> => {
   let allCardData: Card[] = []
   const setNumbers: number[] = [1, 2, 3, 4]

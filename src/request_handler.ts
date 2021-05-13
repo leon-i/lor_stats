@@ -3,6 +3,11 @@ import { RateLimiter } from 'limiter'
 import { CONFIG } from './constants'
 import { API_TYPE, APIResponse } from './types'
 
+/*
+  Request handler that rate limits requests to Riot's api
+
+  @param {string} apiKey api key for making requests to riot's api, set in config.yml
+ */
 class RequestHandler {
   private apiKey: string
   totalRequests: number
@@ -27,6 +32,9 @@ class RequestHandler {
     })
   }
 
+  /*
+  @param {string} request
+   */
   private async _makeRequest(request: string) {
     const data = await fetch(request, {
       headers: {
@@ -48,6 +56,14 @@ class RequestHandler {
     return res
   }
 
+  /*
+  Stalls requests via rate limiters
+
+  @param {string} type matchList, matchData - determines type of api response
+  @param {string} url api url
+  @param {string} id puuid or match id string
+  @param {string} urlCap portion of api endpoint url that comes after the puuid/match id
+   */
   async yep<T extends API_TYPE>(
     type: T,
     url: string,
