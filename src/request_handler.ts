@@ -33,7 +33,22 @@ class RequestHandler {
   }
 
   /*
-  @param {string} request
+    Rate limits Riot api calls
+
+    @param {string} type matchList, matchData
+   */
+  private async _rateLimit(type: API_TYPE): Promise<void> {
+    await this.secondLimiter.removeTokens(1)
+    await this.minuteLimiter.removeTokens(1)
+
+    if (type === 'matchData') {
+      // matchList api method limit is twice that of matchData, so we always hit matchData limit first
+      await this.methodLimiter.removeTokens(1)
+    }
+  }
+
+  /*
+  @param {string} request full request string to Riot api
    */
   private async _makeRequest(request: string) {
     const data = await fetch(request, {
@@ -46,12 +61,6 @@ class RequestHandler {
     this.totalRequests += 1
     if (CONFIG.log_progress) console.log(this.totalRequests)
 
-    if (res.status) {
-      console.warn(data)
-      console.warn(res)
-      throw Error(`Riot API error - ${new Date().toLocaleString()}`)
-    }
-
     if (Array.isArray(res)) return { matches: res }
     return res
   }
@@ -63,18 +72,28 @@ class RequestHandler {
   @param {string} url api url
   @param {string} id puuid or match id string
   @param {string} urlCap portion of api endpoint url that comes after the puuid/match id
+  @param {number} tries number of retries if non-rate limit error is encountered
    */
   async yep<T extends API_TYPE>(
     type: T,
     url: string,
     id: string,
     urlCap = '',
+    tries = 3,
   ): Promise<APIResponse<T>> {
-    await this.secondLimiter.removeTokens(1)
-    await this.minuteLimiter.removeTokens(1)
-    await this.methodLimiter.removeTokens(1)
+    await this._rateLimit(type)
 
     const response = await this._makeRequest(`${url}/${id}${urlCap}`)
+
+    if (response.status) {
+      if (tries === 0 || response.status.status_code === 429) {
+        console.warn(response)
+        throw Error(`Riot API error - ${new Date().toLocaleString()}`)
+      } else {
+        await this._rateLimit(type)
+        return await this.yep(type, url, id, urlCap, tries - 1)
+      }
+    }
 
     return response as Promise<APIResponse<T>>
   }
